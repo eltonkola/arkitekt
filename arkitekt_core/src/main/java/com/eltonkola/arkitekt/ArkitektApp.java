@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public abstract class ArkitektApp extends Application {
 
-    private static ArkitektApp mApp;
+    protected static ArkitektApp mApp;
 
     public static ArkitektApp app(){
         return mApp;
@@ -45,5 +45,9 @@ public abstract class ArkitektApp extends Application {
         return new ErrorScreen();
     }
 
+
+    protected void addScreen(String path, Class type){
+        mAppScreens.put(path, type);
+    }
 }
 

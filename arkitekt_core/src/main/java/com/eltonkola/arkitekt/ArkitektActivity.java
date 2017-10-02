@@ -2,6 +2,8 @@ package com.eltonkola.arkitekt;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuInflater;
+import android.view.View;
 
 import java.util.Stack;
 
@@ -23,6 +25,11 @@ public class ArkitektActivity extends AppCompatActivity {
         public void goTo(final String path, final Object param) {
             loadScreen(path, param);
         }
+
+        @Override
+        public MenuInflater getMenuInflater() {
+            return ArkitektActivity.this.getMenuInflater();
+        }
     };
 
     @Override
@@ -40,6 +47,7 @@ public class ArkitektActivity extends AppCompatActivity {
         mScreens.add(screen);
     }
 
+
     private void closeScreen(){
         AppScreen screen = mScreens.pop();
         screen.onExit();
@@ -54,6 +62,17 @@ public class ArkitektActivity extends AppCompatActivity {
         setContentView(previous.onEnter(this, mScreenNavigation));
         previous._onEntered();
         mScreens.add(previous);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(mScreens.size() > 1){
+            closeScreen();
+        }else{
+            super.onBackPressed();
+        }
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.eltonkola.arkitekt;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 
 /**
@@ -64,10 +65,18 @@ public abstract class AppScreen<T> {
         mScreenNavigation.goTo(path, param);
     }
 
+    public void goTo(final String path){
+        goTo(path, null);
+    }
+
     public void _onEntered(){
         if(firstTime){
             onEntered();
         }
+    }
+
+    protected MenuInflater getMenuInflater(){
+        return mScreenNavigation.getMenuInflater();
     }
 
 }

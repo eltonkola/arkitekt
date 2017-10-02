@@ -1,17 +1,22 @@
-package com.eltonkola.arkitekt;
+package com.eltonkola.arkitekt.demo;
 
 import android.view.View;
 import android.widget.TextView;
+
+import com.eltonkola.arkitekt.AppScreen;
+import com.eltonkola.arkitekt.demo.MainApp;
+import com.eltonkola.arkitekt.demo.R;
+
 
 /**
  * Created by elton on 9/29/17.
  */
 
-public class DetailsScreen extends  AppScreen<String> {
+public class MainScreen extends AppScreen<Void> {
 
     @Override
     public int getView() {
-        return R.layout.details_screen;
+        return R.layout.main_screen;
     }
 
     private int sa = 0;
@@ -20,19 +25,8 @@ public class DetailsScreen extends  AppScreen<String> {
     public void onEntered() {
         super.onEntered();
 
-        mRootView.findViewById(R.id.butClose).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                close();
-            }
-        });
-
-        TextView detailTxt = mRootView.findViewById(R.id.detailTxt);
-        detailTxt.setText("Detail page nr: " + mScreenParam);
-
-
         final TextView mainText =  mRootView.findViewById(R.id.mainText);
-        mainText.setText("You clicked " + sa + " times!");
+        mainText.setText("This is a dynamic screen");
 
         mRootView.findViewById(R.id.butKlik).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +64,10 @@ public class DetailsScreen extends  AppScreen<String> {
             }
         });
 
+    }
 
+    @Override
+    public void onExit() {
+        super.onExit();
     }
 }

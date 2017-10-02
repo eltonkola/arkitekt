@@ -1,1 +1,1 @@
-include ':app', ':arkitekt_core'
+include ':app', ':arkitekt_core' , ':todoapp'
