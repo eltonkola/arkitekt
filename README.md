@@ -1,5 +1,7 @@
 # arkitekt
 
+![Logo](/arkitekt_logo.png?raw=true "Logo")
+
 This is a simple library to make it easier to create simple android apps, with a single library.
 
 Like the idea? Jump in, we are getting started.
