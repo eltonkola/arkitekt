@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+
+
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -31,5 +36,55 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+}
+
+
+group = "com.eltonkola"
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            artifact("$buildDir/outputs/aar/arkitekt_core-release.aar")
+            groupId 'com.eltonkola'
+            artifactId 'arkitekt'
+            version '0.0.1'
+
+            //The publication doesn't know about our dependencies, so we have to manually add them to the pom
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.compile.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+                }
+            }
+        }
+    }
+}
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = project.name
+        userOrg = 'eltonkola'
+        version '0.0.1'
+        licenses = ['Apache-2.0']
+        desc = 'Simple android lib for single activity apps'
+        websiteUrl = "https://eltonkola.com"
+        vcsUrl = 'https://github.com/eltonkola/arkitekt'
+        publish = true
+    }
+    publications = ['library']
 
 }
