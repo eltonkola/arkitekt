@@ -4,9 +4,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eltonkola.arkitekt.AppScreen;
-import com.eltonkola.arkitekt.demo.MainApp;
-import com.eltonkola.arkitekt.demo.R;
-
 
 /**
  * Created by elton on 9/29/17.
@@ -64,10 +61,26 @@ public class MainScreen extends AppScreen<Void> {
             }
         });
 
+
+        mRootView.findViewById(R.id.butOpenAndClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAndClose(MainApp.PATH_DETAILS, "100");
+            }
+        });
+
+        mRootView.findViewById(R.id.butCloseAndOpen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAndClose(MainApp.PATH_DETAILS, "200");
+            }
+        });
+
     }
 
     @Override
     public void onExit() {
         super.onExit();
     }
+
 }

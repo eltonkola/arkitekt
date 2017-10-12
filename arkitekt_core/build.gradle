@@ -39,16 +39,18 @@ dependencies {
 
 }
 
-
-group = "com.eltonkola"
+ext {
+    core_group = "com.eltonkola"
+    core_version = "0.0.3"
+}
 
 publishing {
     publications {
         library(MavenPublication) {
             artifact("$buildDir/outputs/aar/arkitekt_core-release.aar")
-            groupId 'com.eltonkola'
+            groupId core_group
             artifactId 'arkitekt'
-            version '0.0.2'
+            version core_version
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
@@ -78,7 +80,7 @@ bintray {
         repo = 'maven'
         name = project.name
         userOrg = 'eltonkola'
-        version '0.0.2'
+        version core_version
         licenses = ['Apache-2.0']
         desc = 'Simple android lib for single activity apps'
         websiteUrl = "https://eltonkola.com"

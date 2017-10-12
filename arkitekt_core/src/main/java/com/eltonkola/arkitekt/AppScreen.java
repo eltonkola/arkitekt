@@ -19,8 +19,6 @@ public abstract class AppScreen<T> {
     protected Context mContext;
     protected View mRootView;
 
-    private boolean firstTime = true;
-
     protected T mScreenParam;
 
     public void setParameter(T param){
@@ -54,7 +52,6 @@ public abstract class AppScreen<T> {
 
     public void onEntered(){
         Logger.log(">>>>>>>>>>>>>>>> AppScreen onEntered");
-        firstTime = false;
     }
 
     public void onExit() {
@@ -108,9 +105,7 @@ public abstract class AppScreen<T> {
 
     public void _onEntered(){
         Logger.log(">>>>>>>>>>>>>>>> AppScreen _onEntered");
-        if(firstTime){
-            onEntered();
-        }
+        onEntered();
     }
 
     private void toast(final String msg){
