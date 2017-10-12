@@ -6,7 +6,12 @@
         android:supportsRtl="true"
         android:theme="@style/ArkitektTheme"
         >
-        <activity android:name=".ArkitektActivity" android:theme="@style/ArkitektTheme">
+        <activity
+            android:name=".ArkitektActivity"
+            android:theme="@style/ArkitektTheme"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            >
+            <!-- |orientation -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

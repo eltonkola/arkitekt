@@ -48,7 +48,7 @@ publishing {
             artifact("$buildDir/outputs/aar/arkitekt_core-release.aar")
             groupId 'com.eltonkola'
             artifactId 'arkitekt'
-            version '0.0.1'
+            version '0.0.2'
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
@@ -78,7 +78,7 @@ bintray {
         repo = 'maven'
         name = project.name
         userOrg = 'eltonkola'
-        version '0.0.1'
+        version '0.0.2'
         licenses = ['Apache-2.0']
         desc = 'Simple android lib for single activity apps'
         websiteUrl = "https://eltonkola.com"
