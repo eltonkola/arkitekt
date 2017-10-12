@@ -126,7 +126,7 @@ there still a lot, to make this library productionready, but if you guys have ti
 # license
 
 ```
-Copyright [yyyy] [name of copyright owner]
+Copyright 2017 Elton Kola
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
