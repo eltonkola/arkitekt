@@ -116,14 +116,14 @@ similar to the main screen this screen has the same methods, but now we can use:
 mScreenParam, of type T, we defined on the class, and will have the value we sent from main screen.
 
 
-#examples
+# examples
 there are two example apps, a very basic one, and a more complex one, using room and rxjava for a simple todo app, take a look at them
 
-#more
+# more
 
 there still a lot, to make this library productionready, but if you guys have time to play around with it, go on, and lets make this a useful library for everyone
 
-#license
+# license
 
 ```
 Copyright [yyyy] [name of copyright owner]
