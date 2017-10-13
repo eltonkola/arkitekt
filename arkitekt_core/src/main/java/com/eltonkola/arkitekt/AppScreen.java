@@ -108,11 +108,11 @@ public abstract class AppScreen<T> {
         onEntered();
     }
 
-    private void toast(final String msg){
+    public void toast(final String msg){
         mScreenNavigation.toastShort(msg);
     }
 
-    private void toastLong(final String msg){
+    public void toastLong(final String msg){
         mScreenNavigation.toastLong(msg);
     }
 

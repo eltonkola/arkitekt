@@ -41,7 +41,7 @@ dependencies {
 
 ext {
     core_group = "com.eltonkola"
-    core_version = "0.0.3"
+    core_version = "0.0.4"
 }
 
 publishing {

@@ -9,9 +9,9 @@
         <activity
             android:name=".ArkitektActivity"
             android:theme="@style/ArkitektTheme"
-            android:configChanges="keyboardHidden|screenSize|orientation"
+
             >
-            <!-- |orientation -->
+            <!-- android:configChanges="keyboardHidden|screenSize|orientation" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
