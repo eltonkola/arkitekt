@@ -14,7 +14,15 @@ public abstract class AppScreen<T> {
 
     private ScreenNavigation mScreenNavigation;
 
+    enum OrientationUpdates{
+        NONE, TWO_DIRECTIONS, FOUR_DIRECTIONS ,ALL
+    }
+
     public abstract int getView();
+
+    public OrientationUpdates getOrientationUpdates(){
+        return OrientationUpdates.TWO_DIRECTIONS;
+    }
 
     protected Context mContext;
     protected View mRootView;

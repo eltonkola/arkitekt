@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.OrientationEventListener;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.Stack;
@@ -74,43 +73,69 @@ public class ArkitektActivity extends AppCompatActivity {
     }
     private class OrientationListener extends OrientationEventListener{
 
-        private int mPreviousRotation = 0;
-
+        private boolean mPreviousIsPortrait = getOrientation() == Configuration.ORIENTATION_PORTRAIT;
+        private int lastAngle = 0;
         public OrientationListener(Context context) { super(context); }
 
-        @Override public void onOrientationChanged(int givenOrientation) {
+        @Override public void onOrientationChanged(int orientation) {
 
-            Logger.log(">>>>>>>>>>>>>>>> onOrientationChanged:" + givenOrientation);
+            AppScreen currentScreen = mScreens.get(mScreens.size()-1);
 
+            int angle = getDirectionDegrees(orientation);
 
-            int orientation = givenOrientation;
-
-            if (orientation == OrientationEventListener.ORIENTATION_UNKNOWN) {
-                orientation = 0;
+            switch (currentScreen.getOrientationUpdates()){
+                case NONE:
+                    return;
+                case ALL:
+                    forceRefreshScreen(currentScreen);
+                    return;
+                case TWO_DIRECTIONS:
+                    boolean isPortrait = angle == 0 || angle == 180;
+                    if(mPreviousIsPortrait !=  isPortrait) {
+                        mPreviousIsPortrait = isPortrait;
+                        Logger.log(">>>>>>>>>>>>>>>>onOrientationChanged TWO_DIRECTIONS !!DoUpdate!! was:" + mPreviousIsPortrait + " is:" + isPortrait);
+                        forceRefreshScreen(currentScreen);
+                    }
+                    return;
+                case FOUR_DIRECTIONS:
+                    if(lastAngle != angle){
+                        lastAngle = angle;
+                        Logger.log(">>>>>>>>>>>>>>>>onOrientationChanged FOUR_DIRECTIONS !!DoUpdate!! was:" + lastAngle + " is:" + angle);
+                        forceRefreshScreen(currentScreen);
+                    }
+                    return;
             }
 
-            orientation = orientation % 360;
-            int newOrientation;
-            if (orientation < (0 * 90) + 45) {
-                newOrientation = 0;
-            } else if (orientation < (1 * 90) + 45) {
-                newOrientation = 90;
-            } else if (orientation < (2 * 90) + 45) {
-                newOrientation = 180;
-            } else if (orientation < (3 * 90) + 45) {
-                newOrientation = 270;
-            } else {
-                newOrientation = 0;
-            }
-
-            if(mPreviousRotation != newOrientation){
-                mPreviousRotation = newOrientation;
-                Logger.log(">>>>>>>>>>>>>>>> onOrientationChanged !!DoUpdate!! was:" + mPreviousRotation + " is:" + newOrientation);
-                setContentView(mScreens.get(mScreens.size()-1).onEnter(ArkitektActivity.this, mScreenNavigation));
-                mScreens.get(mScreens.size()-1)._onEntered();
-
-            }
         }
+    }
+
+    private void forceRefreshScreen(AppScreen appScreen){
+        setContentView(appScreen.onEnter(ArkitektActivity.this, mScreenNavigation));
+        appScreen._onEntered();
+    }
+
+    private int getDirectionDegrees(int givenOrientation){
+        int orientation = givenOrientation;
+
+        if (orientation == OrientationEventListener.ORIENTATION_UNKNOWN) {
+            orientation = 0;
+        }
+
+        orientation = orientation % 360;
+        int newOrientation;
+        if (orientation < (0 * 90) + 45) {
+            newOrientation = 0;
+        } else if (orientation < (1 * 90) + 45) {
+            newOrientation = 90;
+        } else if (orientation < (2 * 90) + 45) {
+            newOrientation = 180;
+        } else if (orientation < (3 * 90) + 45) {
+            newOrientation = 270;
+        } else {
+            newOrientation = 0;
+        }
+
+        return  newOrientation;
     }
 
     @Override
