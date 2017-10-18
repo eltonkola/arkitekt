@@ -83,7 +83,8 @@ public class ArkitektActivity extends AppCompatActivity {
 
             int angle = getDirectionDegrees(orientation);
 
-            switch (currentScreen.getOrientationUpdates()){
+            //rerender view is required
+            switch (currentScreen.getReloadOnOrientationChange()){
                 case NONE:
                     return;
                 case ALL:
@@ -103,6 +104,32 @@ public class ArkitektActivity extends AppCompatActivity {
                         Logger.log(">>>>>>>>>>>>>>>>onOrientationChanged FOUR_DIRECTIONS !!DoUpdate!! was:" + lastAngle + " is:" + angle);
                         forceRefreshScreen(currentScreen);
                     }
+
+                    return;
+            }
+
+            //send orientation event
+            switch (currentScreen.getUpdateOrientationEvent()){
+                case NONE:
+                    return;
+                case ALL:
+                    currentScreen.onOrientationChange(mScreenNavigation.isInPortraitMode());
+                    return;
+                case TWO_DIRECTIONS:
+                    boolean isPortrait = angle == 0 || angle == 180;
+                    if(mPreviousIsPortrait !=  isPortrait) {
+                        mPreviousIsPortrait = isPortrait;
+                        Logger.log(">>>>>>>>>>>>>>>>onOrientationChanged TWO_DIRECTIONS !!DoUpdate!! was:" + mPreviousIsPortrait + " is:" + isPortrait);
+                        currentScreen.onOrientationChange(mScreenNavigation.isInPortraitMode());
+                    }
+                    return;
+                case FOUR_DIRECTIONS:
+                    if(lastAngle != angle){
+                        lastAngle = angle;
+                        Logger.log(">>>>>>>>>>>>>>>>onOrientationChanged FOUR_DIRECTIONS !!DoUpdate!! was:" + lastAngle + " is:" + angle);
+                        currentScreen.onOrientationChange(mScreenNavigation.isInPortraitMode());
+                    }
+
                     return;
             }
 
@@ -187,6 +214,25 @@ public class ArkitektActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onPause() {
+        if(mScreens.size() > 0) {
+            AppScreen currentScreen = mScreens.get(mScreens.size() - 1);
+            currentScreen.onPause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mScreens.size() > 0) {
+            AppScreen currentScreen = mScreens.get(mScreens.size() - 1);
+            currentScreen.onResume();
+        }
+    }
+
 
 }
 

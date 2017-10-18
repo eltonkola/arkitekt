@@ -14,15 +14,29 @@ public abstract class AppScreen<T> {
 
     private ScreenNavigation mScreenNavigation;
 
-    enum OrientationUpdates{
+    public void onResume() {
+    }
+
+    public void onPause() {
+    }
+
+    enum ReloadOnOrientationChange{
+        NONE, TWO_DIRECTIONS, FOUR_DIRECTIONS ,ALL
+    }
+
+    enum UpdateOrientationEvent{
         NONE, TWO_DIRECTIONS, FOUR_DIRECTIONS ,ALL
     }
 
     public abstract int getView();
 
-    public OrientationUpdates getOrientationUpdates(){
-        return OrientationUpdates.TWO_DIRECTIONS;
+    public ReloadOnOrientationChange getReloadOnOrientationChange(){
+        return ReloadOnOrientationChange.NONE;
     }
+    public UpdateOrientationEvent getUpdateOrientationEvent(){
+        return UpdateOrientationEvent.TWO_DIRECTIONS;
+    }
+
 
     protected Context mContext;
     protected View mRootView;
@@ -126,6 +140,10 @@ public abstract class AppScreen<T> {
 
     protected MenuInflater getMenuInflater(){
         return mScreenNavigation.getMenuInflater();
+    }
+
+    public void onOrientationChange(boolean inPortraitMode){
+
     }
 
 }

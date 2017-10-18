@@ -1,4 +1,4 @@
- [ ![Download](https://api.bintray.com/packages/eltonkola/maven/arkitekt_core/images/download.svg?version=0.0.6) ](https://bintray.com/eltonkola/maven/arkitekt_core/0.0.6/link)
+ [ ![Download](https://api.bintray.com/packages/eltonkola/maven/arkitekt_core/images/download.svg?version=0.0.7) ](https://bintray.com/eltonkola/maven/arkitekt_core/0.0.7/link)
 
 # arkitekt
 
