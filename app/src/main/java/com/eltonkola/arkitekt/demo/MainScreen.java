@@ -76,6 +76,18 @@ public class MainScreen extends AppScreen<Void> {
             }
         });
 
+
+
+        mRootView.findViewById(R.id.butSelect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goTo(MainApp.PATH_SELECT_IMAGE);
+            }
+        });
+
+
+
+
     }
 
     @Override

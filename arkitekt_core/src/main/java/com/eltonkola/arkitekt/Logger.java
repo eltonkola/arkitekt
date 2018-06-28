@@ -9,6 +9,8 @@ import android.util.Log;
 public class Logger {
 
     public static void log(final String log){
-        Log.v("eltonkolazx", "" + log);
+        if(BuildConfig.DEBUG){
+            Log.v("eltonkolazx", "" + log);
+        }
     }
 }

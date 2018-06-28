@@ -1,6 +1,7 @@
 package com.eltonkola.arkitekt;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -233,6 +234,13 @@ public class ArkitektActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(mScreens.size() > 0) {
+            AppScreen currentScreen = mScreens.get(mScreens.size() - 1);
+            currentScreen.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }
 

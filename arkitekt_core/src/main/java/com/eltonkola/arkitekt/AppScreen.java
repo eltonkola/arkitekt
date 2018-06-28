@@ -1,6 +1,10 @@
 package com.eltonkola.arkitekt;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -47,7 +51,7 @@ public abstract class AppScreen<T> {
         mScreenParam = param;
     }
 
-    public View onEnter(final Context context, final ScreenNavigation screenNavigation) {
+    public View onEnter(final ArkitektActivity context, final ScreenNavigation screenNavigation) {
         Logger.log(">>>>>>>>>>>>>>>> AppScreen onEnter " + this.getClass().getName() );
 //        if(mRootView!=null){
 //            return mRootView;
@@ -130,6 +134,10 @@ public abstract class AppScreen<T> {
         onEntered();
     }
 
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        Logger.log(">>>>>>>>>>>>>>>> AppScreen _onActivityResult");
+    }
+
     public void toast(final String msg){
         mScreenNavigation.toastShort(msg);
     }
@@ -145,5 +153,16 @@ public abstract class AppScreen<T> {
     public void onOrientationChange(boolean inPortraitMode){
 
     }
+
+
+    public void startActivityForResult(Intent intent, int requestCode){
+        ((ArkitektActivity)mContext).startActivityForResult(intent, requestCode);
+    }
+
+    public View findViewById(@IdRes int id) {
+        return ((ArkitektActivity)mContext).findViewById(id);
+    }
+
+
 
 }
