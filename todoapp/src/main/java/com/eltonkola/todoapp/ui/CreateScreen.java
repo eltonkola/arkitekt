@@ -185,7 +185,7 @@ public class CreateScreen extends AppScreen<Void> {
     };
 
     private void save() {
-        if (mTitle.getText().toString() == null || mTitle.getText().toString().length() == 0 || mEditor.getHtml().length() == 0) {
+        if (mTitle.getText().toString() == null || mTitle.getText().toString().length() == 0 || mEditor.getHtml() == null || mEditor.getHtml().length() == 0) {
             return;
         }
 
