@@ -69,6 +69,7 @@ public class MyCompiler extends AbstractProcessor {
                 .build();
 
         final HashMap<String, TypeElement> screens = new HashMap();
+        final HashMap<String, String> screenPaths = new HashMap();
 
 
         for (TypeElement type : types) {
@@ -82,6 +83,7 @@ public class MyCompiler extends AbstractProcessor {
 
                     try {
                         screens.put(info.path(), type);
+                        screenPaths.put(info.path(), type.getSimpleName().toString());
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -91,14 +93,26 @@ public class MyCompiler extends AbstractProcessor {
         }
 
         //create the class
+        final ClassCreator classCreator = new ClassCreator();
         try {
-            JavaFile javaFile = new ClassCreator().create(screens);
+            JavaFile javaFile = classCreator.create(screens);
             javaFile.writeTo(filer);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            JavaFile javaFile = classCreator.createPathFile(screenPaths);
+            javaFile.writeTo(filer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         // We are the only ones handling ScreenView annotations
         return true;
     }

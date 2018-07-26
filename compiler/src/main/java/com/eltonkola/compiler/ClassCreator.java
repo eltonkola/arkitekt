@@ -7,6 +7,7 @@ import com.squareup.javapoet.TypeSpec;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.lang.model.element.Modifier;
@@ -45,5 +46,29 @@ public class ClassCreator {
 
     }
 
+    public JavaFile createPathFile(HashMap<String, String> routesMap) {
 
+        final TypeSpec.Builder appPaths = TypeSpec.classBuilder("AppScreens").addModifiers(Modifier.PUBLIC);
+
+
+        Iterator it = routesMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            String type = (String)pair.getValue();
+
+            final FieldSpec fieldPath = FieldSpec.builder(String.class, type)
+                                              .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+                                              .initializer("$S", pair.getKey())
+                                              .build();
+            appPaths.addField(fieldPath);
+
+        }
+
+
+
+
+
+        return JavaFile.builder("com.eltonkola.config", appPaths.build()).build();
+    }
 }

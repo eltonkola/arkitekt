@@ -12,6 +12,7 @@ open class ArkitektApp : Application() {
     override fun onCreate() {
         super.onCreate()
         mApp = this
+
 /*
         //in memory annotation processing
 
