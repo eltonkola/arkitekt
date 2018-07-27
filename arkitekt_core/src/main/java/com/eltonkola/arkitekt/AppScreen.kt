@@ -138,7 +138,7 @@ abstract class AppScreen<T> {
     }
 
     fun findViewById(@IdRes id: Int): View {
-        return (mContext as ArkitektActivity).findViewById(id)
+        return mRootView!!.findViewById(id)
     }
 
 

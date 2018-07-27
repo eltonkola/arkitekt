@@ -1,11 +1,9 @@
 package com.eltonkola.todoapp2.ui
 
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.View
-
+import android.widget.Button
 import com.daimajia.swipe.util.Attributes
 import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
@@ -15,67 +13,69 @@ import com.eltonkola.todoapp2.TodoApp
 import com.eltonkola.todoapp2.model.Todo
 import com.eltonkola.todoapp2.ui.adapter.ToDoAdapter
 import com.eltonkola.todoapp2.ui.adapter.TodoListEvents
-
-import java.util.ArrayList
-
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
+import kotterknife.bindView
+import java.util.*
 
 @ScreenView
 class MainScreen : AppScreen<Void>() {
 
-
-    private var mRecyclerView: RecyclerView? = null
-    private var mLinearLayoutManager: LinearLayoutManager? = null
+//    val toolbar: Toolbar by bindView(R.id.toolbar)
+//    val recyclerView: RecyclerView by bindView(R.id.recyclerView)
+//    val butCreate: Button by bindView(R.id.butCreate)
 
     override val view: Int
         get() = R.layout.main_screen
 
-    private var mToDoAdapter: ToDoAdapter? = null
-
-    private val mTodoListEvents = object : TodoListEvents {
+    private val todoListEvents = object : TodoListEvents {
         override fun onClick(element: Todo) {
             goTo(AppScreens.DetailsScreen, element)
         }
 
         override fun onDelete(element: Todo) {
-            TodoApp.getApp().toDoRepository.delete(element).subscribe({ Log.v("eltonkola", "todo list item deleted") },
-                                                                      { Log.v("eltonkola", "error deleteding todo") })
+            TodoApp.getApp().toDoRepository.delete(element).subscribe({ Log.v("eltonkolaxx", "todo list item deleted") },
+                                                                      { Log.v("eltonkolaxx", "error deleteding todo") })
         }
 
         override fun onCheckChnaged(element: Todo, checked: Boolean?) {
             element.done = checked
-            TodoApp.getApp().toDoRepository.update(element).subscribe({ Log.v("eltonkola", "todo list item deleted") },
-                                                                      { Log.v("eltonkola", "error deleteding todo") })
+            TodoApp.getApp().toDoRepository.update(element).subscribe({ Log.v("eltonkolaxx", "todo list item deleted") },
+                                                                      { Log.v("eltonkolaxx", "error deleteding todo") })
         }
     }
+
+    val toDoAdapter = ToDoAdapter(ArrayList(), todoListEvents)
 
     override fun onEntered() {
         super.onEntered()
 
-        val toolbar = mRootView!!.findViewById<Toolbar>(R.id.toolbar)
+        val toolbar: Toolbar  = mRootView!!.findViewById(R.id.toolbar)
+        val recyclerView: RecyclerView = mRootView!!.findViewById(R.id.recyclerView)
+        val butCreate: Button = mRootView!!.findViewById(R.id.butCreate)
+
+
+
+        Log.v("eltonkolaxx", "onEntered")
+
         toolbar.navigationIcon = mContext!!.resources.getDrawable(R.drawable.ic_dvr_white_24dp)
         toolbar.title = "SSN - Simple Stupid Note"
 
-        mRecyclerView = mRootView!!.findViewById(R.id.recyclerView)
-        mLinearLayoutManager = LinearLayoutManager(mContext)
-        mRecyclerView!!.layoutManager = mLinearLayoutManager
-        mRecyclerView!!.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
 
-        mToDoAdapter = ToDoAdapter(ArrayList(), mTodoListEvents)
-        mRecyclerView!!.adapter = mToDoAdapter
-        mToDoAdapter!!.mode = Attributes.Mode.Multiple
+
+        recyclerView.adapter = toDoAdapter
+        toDoAdapter.mode = Attributes.Mode.Multiple
 
         TodoApp.getApp().toDoRepository.todos.subscribe { todos ->
-            Log.v("eltonkolaxx", "create adapter with nr of elements:" + todos.size)
-            mToDoAdapter!!.updateItems(todos)
+            Log.v("eltonkolaxx", "todo loaded ${todos.size}")
+            toDoAdapter.updateItems(todos)
         }
 
-        mRootView!!.findViewById<View>(R.id.butCreate).setOnClickListener {
-            goTo(AppScreens.CreateScreen)
-        }
+        butCreate.setOnClickListener { goTo(AppScreens.CreateScreen) }
 
     }
 
-
+    override fun onExit() {
+        super.onExit()
+        Log.v("eltonkolaxx", "onExit")
+    }
 }

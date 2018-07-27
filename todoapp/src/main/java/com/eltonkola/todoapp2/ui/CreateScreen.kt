@@ -1,70 +1,63 @@
 package com.eltonkola.todoapp2.ui
 
-import com.eltonkola.annotations.ScreenView
+
 import android.graphics.Color
 import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-
+import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
 import com.eltonkola.todoapp2.R
 import com.eltonkola.todoapp2.TodoApp
 import com.eltonkola.todoapp2.model.Todo
-
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import jp.wasabeef.richeditor.RichEditor
+import kotterknife.bindView
 
 @ScreenView(path = "/create")
 class CreateScreen : AppScreen<Void>() {
 
-    private var mToolbar: Toolbar? = null
-    private var mTitle: EditText? = null
-    private var mEditor: RichEditor? = null
+    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val title: EditText by bindView(R.id.title)
+    val editor: RichEditor by bindView(R.id.editor)
 
     override val view: Int
         get() = R.layout.dialog_create
 
     private val mOnClick = View.OnClickListener { view ->
         when (view.id) {
-            R.id.action_insert_numbers -> mEditor!!.setNumbers()
-            R.id.action_insert_bullets -> mEditor!!.setBullets()
-            R.id.action_blockquote     -> mEditor!!.setBlockquote()
-            R.id.action_align_right    -> mEditor!!.setAlignRight()
-            R.id.action_align_center   -> mEditor!!.setAlignCenter()
-            R.id.action_align_left     -> mEditor!!.setAlignLeft()
-            R.id.action_outdent        -> mEditor!!.setOutdent()
-            R.id.action_indent         -> mEditor!!.setIndent()
-            R.id.action_heading6       -> mEditor!!.setHeading(6)
-            R.id.action_heading5       -> mEditor!!.setHeading(5)
-            R.id.action_heading4       -> mEditor!!.setHeading(4)
-            R.id.action_heading3       -> mEditor!!.setHeading(3)
-            R.id.action_heading2       -> mEditor!!.setHeading(2)
-            R.id.action_heading1       -> mEditor!!.setHeading(1)
-            R.id.action_underline      -> mEditor!!.setUnderline()
-            R.id.action_bold           -> mEditor!!.setBold()
-            R.id.action_italic         -> mEditor!!.setItalic()
-            R.id.action_subscript      -> mEditor!!.setSubscript()
-            R.id.action_superscript    -> mEditor!!.setSuperscript()
-            R.id.action_strikethrough  -> mEditor!!.setStrikeThrough()
+            R.id.action_insert_numbers -> editor.setNumbers()
+            R.id.action_insert_bullets -> editor.setBullets()
+            R.id.action_blockquote     -> editor.setBlockquote()
+            R.id.action_align_right    -> editor.setAlignRight()
+            R.id.action_align_center   -> editor.setAlignCenter()
+            R.id.action_align_left     -> editor.setAlignLeft()
+            R.id.action_outdent        -> editor.setOutdent()
+            R.id.action_indent         -> editor.setIndent()
+            R.id.action_heading6       -> editor.setHeading(6)
+            R.id.action_heading5       -> editor.setHeading(5)
+            R.id.action_heading4       -> editor.setHeading(4)
+            R.id.action_heading3       -> editor.setHeading(3)
+            R.id.action_heading2       -> editor.setHeading(2)
+            R.id.action_heading1       -> editor.setHeading(1)
+            R.id.action_underline      -> editor.setUnderline()
+            R.id.action_bold           -> editor.setBold()
+            R.id.action_italic         -> editor.setItalic()
+            R.id.action_subscript      -> editor.setSubscript()
+            R.id.action_superscript    -> editor.setSuperscript()
+            R.id.action_strikethrough  -> editor.setStrikeThrough()
         }
     }
 
     override fun onEntered() {
         super.onEntered()
 
+        toolbar.navigationIcon = mContext!!.resources.getDrawable(R.drawable.ic_arrow_back_white_24dp)
+        toolbar.setNavigationOnClickListener { close() }
 
-        mToolbar = mRootView!!.findViewById(R.id.toolbar)
-        mToolbar!!.navigationIcon = mContext!!.resources.getDrawable(R.drawable.ic_arrow_back_white_24dp)
-        mToolbar!!.setNavigationOnClickListener { close() }
-
-        mToolbar!!.title = "New Note"
-
+        toolbar.title = "New Note"
 
         val bottomBar = mRootView!!.findViewById<ActionMenuView>(R.id.bottom_toolbar)
         val bottomMenu = bottomBar.menu
@@ -73,27 +66,22 @@ class CreateScreen : AppScreen<Void>() {
             bottomMenu.getItem(i).setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_create_save -> save()
-                    R.id.menu_create_undo -> mEditor!!.undo()
-                    R.id.menu_create_redo -> mEditor!!.redo()
+                    R.id.menu_create_undo -> editor.undo()
+                    R.id.menu_create_redo -> editor.redo()
                 }
-
 
                 true
             }
         }
 
 
-        mTitle = mRootView!!.findViewById(R.id.title)
-        mEditor = mRootView!!.findViewById(R.id.editor)
-
-
-        mEditor!!.setEditorHeight(200)
-        mEditor!!.setEditorFontSize(18)
-        mEditor!!.setEditorFontColor(Color.BLACK)
+        editor.setEditorHeight(200)
+        editor.setEditorFontSize(18)
+        editor.setEditorFontColor(Color.BLACK)
         //mEditor.setEditorBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundResource(R.drawable.bg);
-        mEditor!!.setPadding(10, 10, 10, 10)
+        editor.setPadding(10, 10, 10, 10)
 
         mRootView!!.findViewById<View>(R.id.action_bold).setOnClickListener(mOnClick)
         mRootView!!.findViewById<View>(R.id.action_italic).setOnClickListener(mOnClick)
@@ -120,18 +108,18 @@ class CreateScreen : AppScreen<Void>() {
     }
 
     private fun save() {
-        if (mTitle!!.text.toString() == null || mTitle!!.text.toString().length == 0 || mEditor!!.html == null || mEditor!!.html.length == 0) {
+        if (title.text.toString().isEmpty() || editor.html == null || editor.html.isEmpty()) {
             return
         }
 
         //        butCreate.setEnabled(false);
 
-        val newItem = Todo(mTitle!!.text.toString(), mEditor!!.html)
-        TodoApp.getApp().toDoRepository.createTask(newItem).subscribe(Action {
+        val newItem = Todo(title.text.toString(), editor.html)
+        TodoApp.getApp().toDoRepository.createTask(newItem).subscribe({
             Log.v("eltonkola", "todo list item added")
             Toast.makeText(mContext, "Note saved", Toast.LENGTH_SHORT).show()
             close()
-        }, Consumer<Throwable> {
+        }, {
             //                butCreate.setEnabled(true);
             Log.v("eltonkola", "error creating todo")
             Toast.makeText(mContext, "Error saving note", Toast.LENGTH_SHORT).show()
