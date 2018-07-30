@@ -1,4 +1,3 @@
-//include ':app'
-//include ':arkitekt_core_1'
-include ':arkitekt_core', ':todoapp', ':compiler', ':annotations'
+include ':arkitekt_core', ':compiler', ':annotations'
+include ':tabsapp'
 //include ':todoapp'

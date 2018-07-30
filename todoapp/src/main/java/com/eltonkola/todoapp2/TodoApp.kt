@@ -15,7 +15,7 @@ class TodoApp : ArkitektApp() {
         super.onCreate()
 
         toDoRepository = ToDoRepository(this)
-        routeConfig(AppRoute.routes as HashMap<String, Class<*>>)
+        routeConfig(AppRoute.routes)
 
     }
 

@@ -13,6 +13,7 @@ import android.view.MenuInflater
 import android.view.OrientationEventListener
 import android.widget.FrameLayout
 import android.widget.Toast
+import com.eltonkola.arkitekt.views.AppScreenContainer
 import java.util.*
 
 
@@ -20,7 +21,10 @@ class ArkitektActivity : AppCompatActivity() {
 
     internal var mScreens = Stack<AppScreen<*>>()
 
-    private val mScreenNavigation = object : ScreenNavigation {
+    val mScreenNavigation = object : ScreenNavigation {
+        override fun showScreen(parent: AppScreen<*>, app_screen_container: AppScreenContainer, appScreenPath: String, param: Any?) {
+            loadSubScreen(parent, app_screen_container, appScreenPath, param)
+        }
 
         override val menuInflater: MenuInflater
             get() = this@ArkitektActivity.menuInflater
@@ -76,7 +80,7 @@ class ArkitektActivity : AppCompatActivity() {
 
         override fun onOrientationChanged(orientation: Int) {
 
-            val currentScreen = mScreens[mScreens.size - 1]
+            
 
             val angle = getDirectionDegrees(orientation)
 
@@ -170,6 +174,29 @@ class ArkitektActivity : AppCompatActivity() {
         super.onDestroy()
         mOrientationListener!!.disable()
     }
+
+
+    /*
+    * For current screen, add a subscreen on that container
+    */
+    private fun loadSubScreen(parent: AppScreen<*>, container: AppScreenContainer, path: String, param: Any?) {
+
+        val subscreen = ArkitektApp.app().getScreen(path, param)
+
+        val view = subscreen.onEnter(this, mScreenNavigation)
+        view!!.setBackgroundColor(Color.WHITE)
+
+        container.removeAllViews()
+        container.addView(view)
+        subscreen._onEntered()
+
+        parent.currentSubscreen(container, subscreen)
+
+    }
+
+
+
+
 
     private fun loadScreen(path: String, param: Any?) {
         val screen = ArkitektApp.app().getScreen(path, param)
@@ -276,17 +303,21 @@ class ArkitektActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        if (mScreens.size > 1) {
-            closeScreen()
-        } else {
-            super.onBackPressed()
+
+        if(currentScreen.onBackPressed()){
+            return
+        }else {
+            if (mScreens.size > 1) {
+                closeScreen()
+            } else {
+                super.onBackPressed()
+            }
         }
 
     }
 
     override fun onPause() {
         if (mScreens.size > 0) {
-            val currentScreen = mScreens[mScreens.size - 1]
             currentScreen.onPause()
         }
         super.onPause()
@@ -295,15 +326,15 @@ class ArkitektActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (mScreens.size > 0) {
-            val currentScreen = mScreens[mScreens.size - 1]
             currentScreen.onResume()
         }
     }
 
+    val currentScreen : AppScreen<*> get() = mScreens[mScreens.size - 1]
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         if (mScreens.size > 0) {
-            val currentScreen = mScreens[mScreens.size - 1]
             currentScreen.onActivityResult(requestCode, resultCode, data)
         }
     }

@@ -43,9 +43,9 @@ open class ArkitektApp : Application() {
 */
     }
 
-    fun routeConfig(config: HashMap<String, Class<*>>){
+    fun routeConfig(config: Any){
         mAppScreens.clear()
-        mAppScreens.putAll(config)
+        mAppScreens.putAll(config as HashMap<String, Class<*>>)
     }
 
     fun getScreen(route: String, param: Any?): AppScreen<*> {

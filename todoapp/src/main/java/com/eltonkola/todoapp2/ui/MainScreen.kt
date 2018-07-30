@@ -47,7 +47,7 @@ class MainScreen : AppScreen<Void>() {
 
     override fun onEntered() {
         super.onEntered()
-        
+
 
         Log.v("eltonkolaxx", "onEntered")
 

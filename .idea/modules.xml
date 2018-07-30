@@ -6,7 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/annotations/annotations.iml" filepath="$PROJECT_DIR$/annotations/annotations.iml" />
       <module fileurl="file://$PROJECT_DIR$/arkitekt_core/arkitekt_core.iml" filepath="$PROJECT_DIR$/arkitekt_core/arkitekt_core.iml" />
       <module fileurl="file://$PROJECT_DIR$/compiler/compiler.iml" filepath="$PROJECT_DIR$/compiler/compiler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/todoapp/todoapp.iml" filepath="$PROJECT_DIR$/todoapp/todoapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tabsapp/tabsapp.iml" filepath="$PROJECT_DIR$/tabsapp/tabsapp.iml" />
     </modules>
   </component>
 </project>

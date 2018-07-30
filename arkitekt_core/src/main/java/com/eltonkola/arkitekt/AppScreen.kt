@@ -9,6 +9,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
+import com.eltonkola.arkitekt.views.AppScreenContainer
+import java.util.HashMap
 
 abstract class AppScreen<T> {
 
@@ -98,8 +100,12 @@ abstract class AppScreen<T> {
         if (mScreenNavigation == null) {
             return
         }
+
+        closeAllSubScreens()
+
         mScreenNavigation!!.close()
     }
+
 
     fun goTo(path: String, param: Any?) {
         Logger.log(">>>>>>>>>>>>>>>> AppScreen goTo:$path - param:$param")
@@ -114,22 +120,20 @@ abstract class AppScreen<T> {
         goTo(path, null)
     }
 
-
-    fun goToAndClose(path: String) {
-        Logger.log(">>>>>>>>>>>>>>>> AppScreen goToAndClose:$path")
-        goToAndClose(path, null)
-    }
-
-    fun goToAndClose(path: String, param: Any?) {
+    fun goToAndClose(path: String, param: Any? = null) {
         Logger.log(">>>>>>>>>>>>>>>> AppScreen goToAndClose:$path")
         if (mScreenNavigation == null) {
             return
         }
+        closeAllSubScreens()
         mScreenNavigation!!.goToAndClose(path, param!!)
     }
 
     fun _onEntered() {
         Logger.log(">>>>>>>>>>>>>>>> AppScreen _onEntered")
+        subScreens.forEach { container, appScreen ->
+            appScreen._onEntered()
+        }
         onEntered()
     }
 
@@ -156,6 +160,42 @@ abstract class AppScreen<T> {
 
     fun findViewById(@IdRes id: Int): View {
         return mRootView!!.findViewById(id)
+    }
+
+    /**
+     * do we want to handle the event?
+     * default value is false, so the activity will handle this
+     */
+    open fun onBackPressed(): Boolean {
+        return false
+    }
+
+
+
+    fun showScreen(app_screen_container: AppScreenContainer, appScreenPath: String, param: Any? = null) {
+        Logger.log(">>>>>>>>>>>>>>>> AppScreen showScreen:$appScreenPath app_screen_container:$app_screen_container - param:$param")
+        if (mScreenNavigation == null) {
+            return
+        }
+        mScreenNavigation!!.showScreen(this, app_screen_container, appScreenPath, param)
+    }
+
+
+    /*
+    We can have one or more screen container on a screen, lets update here the last active subscreen
+    */
+    protected var subScreens = HashMap<AppScreenContainer, AppScreen<*>>()
+
+    fun currentSubscreen(container: AppScreenContainer, subscreen: AppScreen<*>) {
+        subScreens.put(container, subscreen)
+    }
+
+    private fun closeAllSubScreens() {
+        subScreens.forEach { container, appScreen ->
+            appScreen.onPause()
+            container.removeAllViews()
+        }
+        subScreens.clear()
     }
 
 
