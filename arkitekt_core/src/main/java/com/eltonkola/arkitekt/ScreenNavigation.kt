@@ -1,5 +1,6 @@
 package com.eltonkola.arkitekt
 
+import android.support.v7.widget.Toolbar
 import android.view.MenuInflater
 import com.eltonkola.arkitekt.views.AppScreenContainer
 
@@ -20,4 +21,6 @@ interface ScreenNavigation {
     fun toastLong(msg: String)
 
     fun showScreen(parent: AppScreen<*>, app_screen_container: AppScreenContainer, appScreenPath: String, param: Any?)
+
+    fun setActionBar(toolbar: Toolbar)
 }

@@ -9,6 +9,8 @@ import android.os.Handler
 import android.support.transition.Transition
 import android.support.transition.TransitionManager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuInflater
 import android.view.OrientationEventListener
 import android.widget.FrameLayout
@@ -22,6 +24,10 @@ class ArkitektActivity : AppCompatActivity() {
     internal var mScreens = Stack<AppScreen<*>>()
 
     val mScreenNavigation = object : ScreenNavigation {
+        override fun setActionBar(toolbar: Toolbar) {
+            setSupportActionBar(toolbar)
+        }
+
         override fun showScreen(parent: AppScreen<*>, app_screen_container: AppScreenContainer, appScreenPath: String, param: Any?) {
             loadSubScreen(parent, app_screen_container, appScreenPath, param)
         }
@@ -229,7 +235,6 @@ class ArkitektActivity : AppCompatActivity() {
 
 
 
-
     }
 
     private fun closeScreen() {
@@ -261,7 +266,7 @@ class ArkitektActivity : AppCompatActivity() {
             previous._onEntered()
 
 
-
+            invalidateOptionsMenu()
         })
 
 
@@ -281,6 +286,7 @@ class ArkitektActivity : AppCompatActivity() {
 
         onDone.run()
 
+        invalidateOptionsMenu()
 
     }
 
@@ -296,6 +302,8 @@ class ArkitektActivity : AppCompatActivity() {
 
 
         onDone.run()
+
+        invalidateOptionsMenu()
 
     }
 
@@ -337,6 +345,16 @@ class ArkitektActivity : AppCompatActivity() {
         if (mScreens.size > 0) {
             currentScreen.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        if(currentScreen.menu !=null ){
+            getMenuInflater().inflate(currentScreen.menu!!, menu)
+            return true
+        }
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
 

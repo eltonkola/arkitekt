@@ -21,6 +21,8 @@ class MainScreen : AppScreen<Void>() {
 
     override val view: Int get() = R.layout.screen_main
 
+    override val menu: Int?  = R.menu.main_menu
+
     val nav_view: NavigationView by bindView(R.id.nav_view)
     val navigation: BottomNavigationView by bindView(R.id.navigation)
     val drawer_layout: DrawerLayout by bindView(R.id.drawer_layout)
@@ -33,6 +35,7 @@ class MainScreen : AppScreen<Void>() {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+        setActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(mContext as Activity, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -44,9 +47,6 @@ class MainScreen : AppScreen<Void>() {
         showScreen(app_screen_container, AppScreens.BrowserScreen, Website("facebook", "http://facebook.com"))
 
     }
-
-
-
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {

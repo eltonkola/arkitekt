@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.annotation.IdRes
 import android.support.transition.Slide
 import android.support.transition.Transition
+import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuInflater
@@ -17,6 +18,8 @@ abstract class AppScreen<T> {
     private var mScreenNavigation: ScreenNavigation? = null
 
     abstract val view: Int
+
+    open val menu: Int? = null
 
     open fun animationIn() : Transition {
         var t: Transition = Slide(Gravity.RIGHT)
@@ -196,6 +199,15 @@ abstract class AppScreen<T> {
             container.removeAllViews()
         }
         subScreens.clear()
+    }
+
+    fun setActionBar(toolbar: Toolbar){
+        Logger.log(">>>>>>>>>>>>>>>> AppScreen setActionBar:$toolbar")
+        if (mScreenNavigation == null) {
+            return
+        }
+        mScreenNavigation!!.setActionBar(toolbar)
+
     }
 
 
