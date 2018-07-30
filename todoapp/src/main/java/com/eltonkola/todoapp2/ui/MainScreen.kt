@@ -19,9 +19,9 @@ import java.util.*
 @ScreenView
 class MainScreen : AppScreen<Void>() {
 
-//    val toolbar: Toolbar by bindView(R.id.toolbar)
-//    val recyclerView: RecyclerView by bindView(R.id.recyclerView)
-//    val butCreate: Button by bindView(R.id.butCreate)
+    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val recyclerView: RecyclerView by bindView(R.id.recyclerView)
+    val butCreate: Button by bindView(R.id.butCreate)
 
     override val view: Int
         get() = R.layout.main_screen
@@ -47,12 +47,7 @@ class MainScreen : AppScreen<Void>() {
 
     override fun onEntered() {
         super.onEntered()
-
-        val toolbar: Toolbar  = mRootView!!.findViewById(R.id.toolbar)
-        val recyclerView: RecyclerView = mRootView!!.findViewById(R.id.recyclerView)
-        val butCreate: Button = mRootView!!.findViewById(R.id.butCreate)
-
-
+        
 
         Log.v("eltonkolaxx", "onEntered")
 

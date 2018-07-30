@@ -3,6 +3,9 @@ package com.eltonkola.arkitekt
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.IdRes
+import android.support.transition.Slide
+import android.support.transition.Transition
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
@@ -12,6 +15,20 @@ abstract class AppScreen<T> {
     private var mScreenNavigation: ScreenNavigation? = null
 
     abstract val view: Int
+
+    open fun animationIn() : Transition {
+        var t: Transition = Slide(Gravity.RIGHT)
+        t.duration = 100
+        return t
+    }
+
+    open fun animationOut() : Transition {
+        var t: Transition = Slide(Gravity.RIGHT)
+        t.duration = 100
+        return t
+    }
+
+
 
     val reloadOnOrientationChange: ReloadOnOrientationChange
         get() = ReloadOnOrientationChange.NONE

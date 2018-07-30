@@ -2,9 +2,12 @@ package com.eltonkola.todoapp2.ui
 
 
 import android.graphics.Color
+import android.support.transition.Slide
+import android.support.transition.Transition
 import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -22,6 +25,19 @@ class CreateScreen : AppScreen<Void>() {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val title: EditText by bindView(R.id.title)
     val editor: RichEditor by bindView(R.id.editor)
+
+
+    override fun animationIn() : Transition {
+            var t: Transition = Slide(Gravity.BOTTOM)
+            t.duration = 100
+            return t
+    }
+
+    override fun  animationOut() : Transition {
+            var t: Transition = Slide(Gravity.BOTTOM)
+            t.duration = 100
+            return t
+    }
 
     override val view: Int
         get() = R.layout.dialog_create

@@ -3,13 +3,17 @@ package com.eltonkola.arkitekt
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.support.transition.Transition
+import android.support.transition.TransitionManager
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuInflater
 import android.view.OrientationEventListener
+import android.widget.FrameLayout
 import android.widget.Toast
-
-import java.util.Stack
+import java.util.*
 
 
 class ArkitektActivity : AppCompatActivity() {
@@ -52,8 +56,13 @@ class ArkitektActivity : AppCompatActivity() {
         get() = resources.configuration.orientation
 
 
+    lateinit var arkitekt_container : FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.arkitekt_activity)
+        arkitekt_container = findViewById(R.id.arkitekt_container)
 
         loadScreen("/", null)
         mOrientationListener = OrientationListener(this@ArkitektActivity)
@@ -164,37 +173,107 @@ class ArkitektActivity : AppCompatActivity() {
 
     private fun loadScreen(path: String, param: Any?) {
         val screen = ArkitektApp.app().getScreen(path, param)
-        setContentView(screen.onEnter(this, mScreenNavigation))
-        screen._onEntered()
-        mScreens.add(screen)
+
+        //setContentView(screen.onEnter(this, mScreenNavigation))
+
+        addView(screen, Runnable {
+
+            screen._onEntered()
+            mScreens.add(screen)
+        })
+
     }
 
     private fun loadScreenAndClose(path: String, param: Any?) {
 
         val lastScreen = mScreens.pop()
-        lastScreen.onExit()
+        removeView(lastScreen, Runnable {
+            lastScreen.onExit()
 
-        val screen = ArkitektApp.app().getScreen(path, param)
-        setContentView(screen.onEnter(this, mScreenNavigation))
-        screen._onEntered()
-        mScreens.add(screen)
+            val screen = ArkitektApp.app().getScreen(path, param)
+
+            addView(screen, Runnable {
+                //setContentView(screen.onEnter(this, mScreenNavigation))
+                screen._onEntered()
+                mScreens.add(screen)
+            })
+
+        })
+
+
+
+
     }
 
     private fun closeScreen() {
+
+        Logger.log(">>>Close screen!")
+
+
         val screen = mScreens.pop()
+        Logger.log(">>>screen to remove:" + screen.javaClass.name)
         screen.onExit()
 
-        if (mScreens.empty()) {
-            finish()
-            return
-        }
+        removeView(screen, Runnable {
 
-        val previous = mScreens.pop()
 
-        setContentView(previous.onEnter(this, mScreenNavigation))
-        previous._onEntered()
-        mScreens.add(previous)
+            if (mScreens.empty()) {
+                finish()
+                return@Runnable
+            }
+
+            val previous = mScreens.peek()
+            Logger.log(">>>previous is :" + previous.javaClass.name)
+            //setContentView(previous.onEnter(this, mScreenNavigation))
+
+            //addView(previous.onEnter(this, mScreenNavigation))
+//        previous.onEntered()
+
+            Logger.log(">>>mScreens  :" + mScreens.size)
+
+            previous._onEntered()
+
+
+
+        })
+
+
     }
+
+    fun addView(screen: AppScreen<*>, onDone: Runnable){
+
+
+            val view = screen.onEnter(this, mScreenNavigation)
+
+             view!!.setBackgroundColor(Color.WHITE)
+
+
+        TransitionManager.beginDelayedTransition(arkitekt_container, screen.animationIn())
+
+        arkitekt_container.addView(view)
+
+        onDone.run()
+
+
+    }
+
+    fun removeView(screen: AppScreen<*>, onDone: Runnable){
+
+        val viewToRemove = arkitekt_container.getChildAt(arkitekt_container.childCount - 1)
+        TransitionManager.beginDelayedTransition(arkitekt_container, screen.animationOut())
+
+        arkitekt_container.removeView(viewToRemove)
+
+
+        //TransitionManager.endTransitions(arkitekt_container)
+
+
+        onDone.run()
+
+    }
+
+
+
 
     override fun onBackPressed() {
         if (mScreens.size > 1) {
