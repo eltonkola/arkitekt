@@ -1,4 +1,4 @@
-package com.eltonkola.compiler;
+package com.eltonkola.arkitekt.compiler;
 
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;

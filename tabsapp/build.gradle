@@ -44,9 +44,9 @@ dependencies {
 
   implementation project(':arkitekt_core')
 
-  implementation project(':annotations')
+  implementation project(':arkitekt_annotations')
 
-  kapt project(':compiler')
+  kapt project(':arkitekt_compiler')
 
 
 }

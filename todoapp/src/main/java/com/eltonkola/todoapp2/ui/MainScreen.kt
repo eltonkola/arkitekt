@@ -5,8 +5,8 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.widget.Button
 import com.daimajia.swipe.util.Attributes
-import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
+import com.eltonkola.arkitekt.annotations.ScreenView
 import com.eltonkola.config.AppScreens
 import com.eltonkola.todoapp2.R
 import com.eltonkola.todoapp2.TodoApp

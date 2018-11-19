@@ -1,13 +1,9 @@
-package com.eltonkola.compiler;
+package com.eltonkola.arkitekt.compiler;
 
-import com.eltonkola.annotations.ScreenView;
+import com.eltonkola.arkitekt.annotations.ScreenView;
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableList;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -28,12 +24,11 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
-public class MyCompiler extends AbstractProcessor {
+public class ArkitektCompiler extends AbstractProcessor {
 
     private Messager messager;
     private Filer filer;

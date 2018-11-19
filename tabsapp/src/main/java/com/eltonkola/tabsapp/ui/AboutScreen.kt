@@ -2,8 +2,8 @@ package com.eltonkola.tabsapp.ui
 
 import android.support.v7.widget.Toolbar
 import android.webkit.WebView
-import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
+import com.eltonkola.arkitekt.annotations.ScreenView
 import com.eltonkola.tabsapp.R
 import kotterknife.bindView
 

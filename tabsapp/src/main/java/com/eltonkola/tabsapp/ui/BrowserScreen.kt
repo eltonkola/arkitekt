@@ -2,7 +2,6 @@ package com.eltonkola.todoapp2.ui
 
 import android.support.v7.widget.Toolbar
 import android.webkit.WebView
-import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
 import com.eltonkola.tabsapp.R
 import com.eltonkola.tabsapp.model.Website
@@ -12,7 +11,7 @@ import android.webkit.WebResourceRequest
 import android.annotation.TargetApi
 import android.widget.Toast
 import android.webkit.WebViewClient
-
+import com.eltonkola.arkitekt.annotations.ScreenView
 
 
 @ScreenView(path = "/webview")

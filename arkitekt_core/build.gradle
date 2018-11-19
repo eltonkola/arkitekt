@@ -15,7 +15,7 @@ android {
     minSdkVersion 15
     targetSdkVersion 27
     versionCode 1
-    versionName "0.1.0"
+    versionName "$arkitekt_lib_version"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -48,7 +48,7 @@ dependencies {
 
 ext {
   core_group = "com.eltonkola"
-  core_version = "0.1.0"
+  core_version = "$arkitekt_lib_version"
 }
 
 publishing {

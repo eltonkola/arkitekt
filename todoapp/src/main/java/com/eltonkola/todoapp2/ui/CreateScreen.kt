@@ -11,8 +11,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
+import com.eltonkola.arkitekt.annotations.ScreenView
 import com.eltonkola.todoapp2.R
 import com.eltonkola.todoapp2.TodoApp
 import com.eltonkola.todoapp2.model.Todo

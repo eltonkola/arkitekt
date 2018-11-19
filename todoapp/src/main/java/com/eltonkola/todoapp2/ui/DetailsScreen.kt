@@ -3,8 +3,8 @@ package com.eltonkola.todoapp2.ui
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.webkit.WebView
-import com.eltonkola.annotations.ScreenView
 import com.eltonkola.arkitekt.AppScreen
+import com.eltonkola.arkitekt.annotations.ScreenView
 import com.eltonkola.todoapp2.R
 import com.eltonkola.todoapp2.model.Todo
 import kotterknife.bindView
